@@ -1,7 +1,9 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phaseiichallenges/bloc/news_bloc/news_bloc.dart';
 import 'package:phaseiichallenges/bloc/news_bloc/news_state.dart';
+import 'package:phaseiichallenges/ui/screens/second_screen.dart';
 import 'package:phaseiichallenges/ui/styles/colors.dart';
 
 class FirstScreen extends StatelessWidget {
@@ -9,10 +11,10 @@ class FirstScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('5');
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: AppColors.backgroundAppColor,
       appBar: AppBar(
         backgroundColor: AppColors.backgroundAppColor,
         title: Text(
@@ -23,64 +25,75 @@ class FirstScreen extends StatelessWidget {
               fontWeight: FontWeight.w700),
         ),
       ),
-      body: SafeArea(
-        child: BlocBuilder<NewsBloc, NewsState>(
-
-          builder: (context, state)
-            {
-            if(state is NewsLoadingState)
-            {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            else if(state is NewsLoadingSuccessState)
-            {
-              return ListView.builder(
-            itemCount: state.newsModelResponse!.newsModel!.length,
-            itemBuilder: (context, index) {
-              return Container(
-                margin: EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                    color: AppColors.backgroundAppColor,
-                    borderRadius: BorderRadius.circular(15)),
-                height: height * 0.2,
-                child: Row(
-                  children: [
-                    Container(
-                      height: height * 0.20,
-                      width: width * 0.3,
+      body: SafeArea(child: BlocBuilder<NewsBloc, NewsState>(
+        builder: (context, state) {
+          if (state is NewsLoadingState) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is NewsLoadingSuccessState) {
+            return ListView.builder(
+                itemCount: state.newsModelResponse!.newsModel!.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: (){
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SecondScreen(newsModel: state.newsModelResponse!.newsModel![index],)));
+                    },
+                    child: Container(
+                      margin: EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                          //shape: BoxShape.circle,
-                          borderRadius: BorderRadius.circular(15),
-                          image: DecorationImage(
-                            image: NetworkImage(
-                              state.newsModelResponse!.newsModel![index].urlToImage.toString()=='No Image'?"https://banner2.cleanpng.com/20180605/wzl/kisspng-computer-icons-image-file-formats-no-image-5b16ff0d4b81e2.4246835515282337413093.jpg":state.newsModelResponse!.newsModel![index].urlToImage.toString(),
-            
+                          color: AppColors.backgroundAppColor,
+                          borderRadius: BorderRadius.circular(15)),
+                      height: height * 0.15,
+                      child: Row(
+                        children: [
+                          Container(
+                            height: height * 0.15,
+                            width: width * 0.3,
+                            decoration: BoxDecoration(
+                                //shape: BoxShape.circle,
+                                borderRadius: BorderRadius.circular(15),
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                      state.newsModelResponse!.newsModel![index]
+                                                  .urlToImage
+                                                  .toString() ==
+                                              'No Image'
+                                          ? "https://banner2.cleanpng.com/20180605/wzl/kisspng-computer-icons-image-file-formats-no-image-5b16ff0d4b81e2.4246835515282337413093.jpg"
+                                          : state.newsModelResponse!
+                                              .newsModel![index].urlToImage
+                                              .toString(),
+                                    ),
+                                    fit: BoxFit.cover)),
+                          ),
+                          Container(
+                            height: height * 0.15,
+                            width: width * 0.64,
+                            padding: EdgeInsets.only(left: 10, right: 5),
+                            child: Text(
+                              state.newsModelResponse!.newsModel![index].title
+                                  .toString(),
+                              overflow: TextOverflow.clip,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18,
+                                  color: AppColors.textAppColor),
                             ),
-                            fit: BoxFit.cover
-                          )),
-                    )
-                  ],
-                ),
-              );
-            });
-            }
-            else if(state is NewsLoadingErrorState)
-            {
-              return Center(
-                child: Text(
-                  state.error.toString()
-                ),
-              );
-            }
-            else{
-              return Container();
-            }
-          },
-        )
-        
-      ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                });
+          } else if (state is NewsLoadingErrorState) {
+            return Center(
+              child: Text(state.error.toString()),
+            );
+          } else {
+            return Container();
+          }
+        },
+      )),
     );
   }
 }
