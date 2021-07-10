@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:phaseiichallenges/bloc/news_bloc/news_bloc.dart';
 
+import 'bloc/news_bloc/news_event.dart';
 import 'ui/screens/first_screen.dart';
 
 void main() {
@@ -14,7 +17,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Phase 2 Challenges',
-      home: FirstScreen()
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context)=>NewsBloc()..add(FetchNews()))
+        ],
+        child:  FirstScreen(),
+      )
       ,
     );
   }
