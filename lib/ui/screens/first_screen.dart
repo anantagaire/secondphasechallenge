@@ -55,12 +55,7 @@ class FirstScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(15),
                                 image: DecorationImage(
                                     image: NetworkImage(
-                                      state.newsModelResponse!.newsModel![index]
-                                                  .urlToImage
-                                                  .toString() ==
-                                              'No Image'
-                                          ? "https://banner2.cleanpng.com/20180605/wzl/kisspng-computer-icons-image-file-formats-no-image-5b16ff0d4b81e2.4246835515282337413093.jpg"
-                                          : state.newsModelResponse!
+                                     state.newsModelResponse!
                                               .newsModel![index].urlToImage
                                               .toString(),
                                     ),
