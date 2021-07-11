@@ -89,16 +89,14 @@ class SecondScreen extends StatelessWidget {
                     SizedBox(
                       height: height*0.03,
                     ),
-                    Container(
-                      height: height*0.32,
-                      child: Text(
-                        newsModel.description.toString(),
-                        style: TextStyle(
-                            color: AppColors.textAppColor,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600),
-                      ),
+                    Text(
+                      newsModel.description.toString(),
+                      style: TextStyle(
+                          color: AppColors.textAppColor,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600),
                     ),
+                    SizedBox(height: height*0.2),
                     FlatButton(
                         onPressed: () {
 
