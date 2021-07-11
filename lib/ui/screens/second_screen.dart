@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:phaseiichallenges/repository/models/news_models.dart';
+import 'package:phaseiichallenges/ui/screens/web_view_screen.dart';
 import 'package:phaseiichallenges/ui/styles/colors.dart';
 
 class SecondScreen extends StatelessWidget {
@@ -97,14 +98,17 @@ class SecondScreen extends StatelessWidget {
                     ),
                     SizedBox(height: height*0.2),
                     FlatButton(
-                        onPressed: () {},
+                        onPressed: () {
+
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>WebViewSCreen(url: newsModel.url.toString())));
+                        },
                         child: Container(
                           height: height*0.05,
                           width: width,
                           color: AppColors.primaryAppColor,
                           child: Center(
                             child: Text(
-                              'For More Information',
+                              'More Information',
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   fontSize: 20,
